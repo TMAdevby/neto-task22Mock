@@ -1,5 +1,7 @@
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,6 +11,8 @@ import ru.netology.geo.GeoServiceImpl;
 
 import java.util.stream.Stream;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.params.provider.Arguments.of;
 
 
@@ -42,12 +46,26 @@ public class GeoServiceImplTest {
     @ParameterizedTest(name = "IP:{0} -> {1}")
     @MethodSource("provideIpAndLocation")
     @DisplayName("Получение расположения по id")
-    public void givenIp_validTask_returnCorrectLocation(String ip, Location expectedLocation) {
+    void givenIp_validTask_returnCorrectLocation(String ip, Location expectedLocation) {
         // given:
         // when:
         Location location = geoServiceImpl.byIp(ip);
         // then:
         assertThat(location).isEqualTo(expectedLocation);
+    }
+
+    @Test
+    @DisplayName("Исключение при вызове byCoordinates")
+    void givenCoordinates_byCoordinates_thenThrowRuntimeException(){
+        // given:
+        double latitude = 12.24;
+        double longitude = 56.82;
+        // when:
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->{
+            geoServiceImpl.byCoordinates(latitude,longitude);
+        });
+        // then:
+        MatcherAssert.assertThat(exception.getMessage(), containsString("Not implemented"));
     }
 
 }
