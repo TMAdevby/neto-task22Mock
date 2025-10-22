@@ -68,4 +68,6 @@ public class GeoServiceImplTest {
         MatcherAssert.assertThat(exception.getMessage(), containsString("Not implemented"));
     }
 
+
+
 }
