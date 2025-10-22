@@ -16,7 +16,7 @@ import java.util.Set;
 public class MessageSenderImplTest {
 
     @Test
-    void testSendMessage_WhenCountryIsRussia_ReturnsRussianMessage(){
+    void testSendMessage_WhenCountryIsRussia_ReturnsRussianMessage() {
         GeoService geoService = Mockito.mock(GeoService.class);
         Mockito.when(geoService.byIp("172.0.32.11"))
                 .thenReturn(new Location("Moscow", Country.RUSSIA, "Lenina", 15));
@@ -26,13 +26,13 @@ public class MessageSenderImplTest {
                 .thenReturn("Добро пожаловать");
 
         MessageSenderImpl messageSenderImpl = new MessageSenderImpl(geoService, localizationService);
-        Map<String,String> headers = new HashMap<>();
+        Map<String, String> headers = new HashMap<>();
         headers.put(MessageSenderImpl.IP_ADDRESS_HEADER, "172.0.32.11");
 
         String message = messageSenderImpl.send(headers);
         //String expectedMessage = localizationService.locale(Country.RUSSIA);
 
-        Assertions.assertEquals("Добро пожаловать",message);
+        Assertions.assertEquals("Добро пожаловать", message);
 
 //        Mockito.verify(geoService, Mockito.times(1)).byIp("172.0.32.11");
 //        Mockito.verify(localizationService,Mockito.times(3)).locale(Country.RUSSIA);
@@ -47,7 +47,7 @@ public class MessageSenderImplTest {
     }
 
     @Test
-    void testSendMessage_WhenIpMissing_ReturnsDefaultMessage(){
+    void testSendMessage_WhenIpMissing_ReturnsDefaultMessage() {
         GeoService geoService = Mockito.mock(GeoService.class);
         Mockito.when(geoService.byIp(""))
                 .thenReturn(new Location("Moscow", Country.USA, "Lenina", 15));
@@ -57,15 +57,15 @@ public class MessageSenderImplTest {
                 .thenReturn("Welcome");
 
         MessageSenderImpl messageSenderImpl = new MessageSenderImpl(geoService, localizationService);
-        Map<String,String> headers = new HashMap<>();
+        Map<String, String> headers = new HashMap<>();
         headers.put(MessageSenderImpl.IP_ADDRESS_HEADER, "");
 
         String message = messageSenderImpl.send(headers);
- //       String expectedMessage = localizationService.locale(Country.GERMANY);
+        //       String expectedMessage = localizationService.locale(Country.GERMANY);
 
-        Assertions.assertEquals("Welcome",message);
+        Assertions.assertEquals("Welcome", message);
 
-         Mockito.verify(geoService, Mockito.never()).byIp(Mockito.anyString());
+        Mockito.verify(geoService, Mockito.never()).byIp(Mockito.anyString());
 
         ArgumentCaptor<Country> countryCaptor = ArgumentCaptor.forClass(Country.class);
         Mockito.verify(localizationService).locale(countryCaptor.capture());

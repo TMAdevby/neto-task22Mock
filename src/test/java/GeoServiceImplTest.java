@@ -56,18 +56,17 @@ public class GeoServiceImplTest {
 
     @Test
     @DisplayName("Исключение при вызове byCoordinates")
-    void givenCoordinates_byCoordinates_thenThrowRuntimeException(){
+    void givenCoordinates_byCoordinates_thenThrowRuntimeException() {
         // given:
         double latitude = 12.24;
         double longitude = 56.82;
         // when:
-        RuntimeException exception = assertThrows(RuntimeException.class, () ->{
-            geoServiceImpl.byCoordinates(latitude,longitude);
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            geoServiceImpl.byCoordinates(latitude, longitude);
         });
         // then:
         MatcherAssert.assertThat(exception.getMessage(), containsString("Not implemented"));
     }
-
 
 
 }

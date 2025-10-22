@@ -17,7 +17,7 @@ public class LocalizationServiceImplTest {
     LocalizationService localizationService;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         localizationService = new LocalizationServiceImpl();
     }
 
